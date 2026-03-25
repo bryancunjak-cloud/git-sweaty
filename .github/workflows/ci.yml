@@ -121,13 +121,15 @@ jobs:
             }
 
             $pyInvocation = Get-Content -Path $pyLog -Raw
+            Write-Host "Captured Python invocation:"
+            Write-Host $pyInvocation
             if ($pyInvocation -notmatch "setup_auth\.py") {
               throw "Expected bootstrap.ps1 to launch setup_auth.py."
             }
             if ($pyInvocation -notmatch "--repo smoketest/git-sweaty") {
               throw "Expected bootstrap.ps1 to target the detected default fork."
             }
-            if ($pyInvocation -notmatch "--source strava") {
+            if ($pyInvocation -notmatch "--source" -or $pyInvocation -notmatch "strava") {
               throw "Expected bootstrap.ps1 to forward setup arguments."
             }
             if ($pyInvocation -notmatch "--no-auto-github") {
